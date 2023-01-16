@@ -1,30 +1,37 @@
 pipeline {
-     agent any
-
-    tools {
-        
-        nodejs 'nodejs'
+    agent any
+  
+    options {
+        skipStagesAfterUnstable()
     }
-     environment {
-            CI = 'true'
-        }
+   
+    
     stages {
-        stage('Build') {
-            steps {
-                sh 'npm install'
+
+         stage('Clone repository') { 
+            steps { 
+                script{
+                    checkout scm
+                }
             }
         }
-        stage('Test') {
-                    steps {
-                        sh './jenkins/scripts/test.sh'
-                    }
-                }
-                stage('Deliver') {
-                            steps {
-                                sh './jenkins/scripts/deliver.sh'
-                               
-                            }
-                        }
 
+        stage('Install dependencies') { 
+            steps { 
+                script{
+                    sh  'sudo npm i --force'
+                }
+            }
+        }
+        
+        stage('Build') { 
+            steps { 
+                script{
+                    sh  'ng build'
+                }
+            }
+        }
+        
+      
     }
-}
+ }
