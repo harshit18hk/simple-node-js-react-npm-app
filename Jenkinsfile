@@ -19,7 +19,7 @@ pipeline {
         stage('Install dependencies') { 
             steps { 
                 script{
-                    sh  'sudo npm i --force'
+                    sh  'npm i --force'
                 }
             }
         }
